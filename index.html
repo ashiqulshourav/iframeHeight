@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iframe actual height</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>This page paragraph showing from a another page & with actual height</h2>
+
+    <iframe src='iframe.html' id='edh-iframe' width="100%" frameBorder="0"></iframe>
+
+    <script type='text/javascript'>
+        // Listen for messages sent from the iFrame
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+        eventer(messageEvent, function(e) {
+            // If the message is a resize frame request
+            if (e.data.indexOf('resize::') != -1) {
+                var height = e.data.replace('resize::', '');
+                document.getElementById('edh-iframe').style.height = height + 'px';
+            }
+        }, false);
+    </script>
+</body>
+
+</html>
